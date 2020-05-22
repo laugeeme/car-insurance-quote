@@ -40,6 +40,8 @@ Insurance.prototype.quoteInsurance = function () {
   } else {
     quantity *= 1.5;
   }
+
+  return quantity;
 };
 
 //interfaz
@@ -60,6 +62,33 @@ Interface.prototype.showError = function (msj, type) {
   setTimeout(function () {
     document.querySelector('.msj').remove();
   }, 3000);
+};
+
+//print the result of the quote
+Interface.prototype.showResult = function (insurance, total) {
+  const result = document.getElementById('resultado');
+  let model;
+  switch (insurance.model) {
+    case '1':
+      model = 'Americano';
+      break;
+    case '2':
+      model = 'Asiático';
+      break;
+    case '3':
+      model = 'Europeo';
+      break;
+  }
+
+  const div = document.createElement('div');
+  div.innerHTML = `
+        <p>Tu resumen:</p>
+        <p>Marca:${model}</p>  
+        <p>Año: ${insurance.year}</p> 
+        <p>Tipo: ${insurance.type}</p> 
+        <p>Total:$ ${total}</p>  `;
+
+  result.appendChild(div);
 };
 
 //listeners
@@ -90,6 +119,8 @@ form.addEventListener('submit', function (e) {
     const insurance = new Insurance(modelSelected, yearSelected, typeSelected);
     //Quote insurance
     const quantity = insurance.quoteInsurance(insurance);
+    //show result calculate before
+    interfaceRes.showResult(insurance, quantity);
   }
 });
 
