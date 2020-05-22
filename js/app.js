@@ -82,7 +82,7 @@ Interface.prototype.showResult = function (insurance, total) {
 
   const div = document.createElement('div');
   div.innerHTML = `
-        <p>Tu resumen:</p>
+        <p class="header">Tu resumen:</p>
         <p>Marca:${model}</p>  
         <p>Año: ${insurance.year}</p> 
         <p>Tipo: ${insurance.type}</p> 
@@ -115,6 +115,12 @@ form.addEventListener('submit', function (e) {
   if (modelSelected === '' || yearSelected === '' || typeSelected === '') {
     interfaceRes.showError('Faltan datos, revisar el formulario', 'error');
   } else {
+    //clean older results
+    const results = document.querySelector('#resultado div');
+    if (results !== null) {
+      results.remove();
+    }
+
     //Insurance instance
     const insurance = new Insurance(modelSelected, yearSelected, typeSelected);
     //Quote insurance
