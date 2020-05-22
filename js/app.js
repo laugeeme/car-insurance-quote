@@ -11,7 +11,24 @@ function Insurance(model, year, type) {
 //interfaz
 function Interface() {}
 
-//listneners
+//msj printed in the html
+Interface.prototype.showError = function (msj, type) {
+  const div = document.createElement('div');
+
+  if (type === 'error') {
+    div.classList.add('msj','error');
+  } else {
+    div.classList('msj','correcto');
+  }
+  div.innerHTML = `${msj}`;
+  form.insertBefore(div, document.querySelector('.form-group'));
+
+  setTimeout(function(){
+    document.querySelector('.msj').remove();
+  },3000);
+};
+
+//listeners
 const form = document.getElementById('cotizar-seguro');
 form.addEventListener('submit', function (e) {
   e.preventDefault();
@@ -31,12 +48,11 @@ form.addEventListener('submit', function (e) {
   const interfaceRes = new Interface();
 
   //check if inputs are empty
-  if(modelSelected === '' || yearSelected === '' || type === ''){
-      console.log('faltan datos');
-  } else{
-      console.log('todo correcto');
+  if (modelSelected === '' || yearSelected === '' || type === '') {
+    interfaceRes.showError('Faltan datos, revisar el formulario', 'error');
+  } else {
+    console.log('todo correcto');
   }
-
 });
 
 //add options in select input
