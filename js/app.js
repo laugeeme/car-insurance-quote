@@ -88,7 +88,12 @@ Interface.prototype.showResult = function (insurance, total) {
         <p>Tipo: ${insurance.type}</p> 
         <p>Total:$ ${total}</p>  `;
 
-  result.appendChild(div);
+  const spinner = document.querySelector('#cargando img');
+  spinner.style.display = 'block';
+  setTimeout(function () {
+    spinner.style.display = 'none';
+    result.appendChild(div);
+  }, 3000);
 };
 
 //listeners
