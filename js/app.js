@@ -7,6 +7,34 @@ function Insurance(model, year, type) {
   this.year = year;
   this.type = type;
 }
+Insurance.prototype.quoteInsurance = function () {
+  /*
+    1 = americano 1.15
+    2 = asiatico 1.05
+    3 = europeo 1.35
+
+    */
+  let quantity;
+  const base = 2000;
+
+  switch (this.model) {
+    case '1':
+      quantity = base * 1.15;
+      break;
+    case '2':
+      quantity = base * 1.05;
+      break;
+    case '3':
+      quantity = base * 1.35;
+      break;
+  }
+
+
+  const difference = new Date().getFullYear() - this.anio;
+  
+
+
+};
 
 //interfaz
 function Interface() {}
@@ -16,16 +44,16 @@ Interface.prototype.showError = function (msj, type) {
   const div = document.createElement('div');
 
   if (type === 'error') {
-    div.classList.add('msj','error');
+    div.classList.add('msj', 'error');
   } else {
-    div.classList('msj','correcto');
+    div.classList('msj', 'correcto');
   }
   div.innerHTML = `${msj}`;
   form.insertBefore(div, document.querySelector('.form-group'));
 
-  setTimeout(function(){
+  setTimeout(function () {
     document.querySelector('.msj').remove();
-  },3000);
+  }, 3000);
 };
 
 //listeners
@@ -42,16 +70,20 @@ form.addEventListener('submit', function (e) {
   const yearSelected = year.options[year.selectedIndex].value;
 
   //read radio button
-  const type = document.querySelector('input[name="tipo"]:checked').value;
+  const typeSelected = document.querySelector('input[name="tipo"]:checked')
+    .value;
 
   //create interface instance
   const interfaceRes = new Interface();
 
   //check if inputs are empty
-  if (modelSelected === '' || yearSelected === '' || type === '') {
+  if (modelSelected === '' || yearSelected === '' || typeSelected === '') {
     interfaceRes.showError('Faltan datos, revisar el formulario', 'error');
   } else {
-    console.log('todo correcto');
+    //Insurance instance
+    const insurance = new Insurance(modelSelected, yearSelected, typeSelected);
+    //Quote insurance
+    const quantity = insurance.quoteInsurance(insurance);
   }
 });
 
