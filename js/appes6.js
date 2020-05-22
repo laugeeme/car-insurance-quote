@@ -2,99 +2,99 @@
 'use strict';
 
 //insurance constructor
-function Insurance(model, year, type) {
-  this.model = model;
-  this.year = year;
-  this.type = type;
-}
-Insurance.prototype.quoteInsurance = function () {
-  /*
+class Insurance {
+  constructor(model, year, type) {
+    this.model = model;
+    this.year = year;
+    this.type = type;
+  }
+  quoteInsurance() {
+    /*
     1 = americano 1.15
     2 = asiatico 1.05
     3 = europeo 1.35
 
     */
-  let quantity;
-  const base = 2000;
+    let quantity;
+    const base = 2000;
 
-  switch (this.model) {
-    case '1':
-      quantity = base * 1.15;
-      break;
-    case '2':
-      quantity = base * 1.05;
-      break;
-    case '3':
-      quantity = base * 1.35;
-      break;
+    switch (this.model) {
+      case '1':
+        quantity = base * 1.15;
+        break;
+      case '2':
+        quantity = base * 1.05;
+        break;
+      case '3':
+        quantity = base * 1.35;
+        break;
+    }
+
+    //read the year
+    const difference = new Date().getFullYear() - this.year;
+    //in every old year the price reduces 3%
+    quantity -= (difference * 3 * quantity) / 100;
+
+    //basic insurance mutiplys 30% and complete 50%
+    if (this.type === 'basico') {
+      quantity *= 1.3;
+    } else {
+      quantity *= 1.5;
+    }
+
+    return quantity;
   }
-
-  //read the year
-  const difference = new Date().getFullYear() - this.year;
-  //in every old year the price reduces 3%
-  quantity -= (difference * 3 * quantity) / 100;
-
-  //basic insurance mutiplys 30% and complete 50%
-  if (this.type === 'basico') {
-    quantity *= 1.3;
-  } else {
-    quantity *= 1.5;
-  }
-
-  return quantity;
-};
+}
 
 //interfaz
-function Interface() {}
+class Interface {
+  showMsj(msj, type) {
+    const div = document.createElement('div');
 
-//msj printed in the html
-Interface.prototype.showMsj = function (msj, type) {
-  const div = document.createElement('div');
+    if (type === 'error') {
+      div.classList.add('msj', 'error');
+    } else {
+      div.classList.add('msj', 'correcto');
+    }
+    div.innerHTML = `${msj}`;
+    form.insertBefore(div, document.querySelector('.form-group'));
 
-  if (type === 'error') {
-    div.classList.add('msj', 'error');
-  } else {
-    div.classList.add('msj', 'correcto');
-  }
-  div.innerHTML = `${msj}`;
-  form.insertBefore(div, document.querySelector('.form-group'));
-
-  setTimeout(function () {
-    document.querySelector('.msj').remove();
-  }, 3000);
-};
-
-//print the result of the quote
-Interface.prototype.showResult = function (insurance, total) {
-  const result = document.getElementById('resultado');
-  let model;
-  switch (insurance.model) {
-    case '1':
-      model = 'Americano';
-      break;
-    case '2':
-      model = 'Asiático';
-      break;
-    case '3':
-      model = 'Europeo';
-      break;
+    setTimeout(function () {
+      document.querySelector('.msj').remove();
+    }, 3000);
   }
 
-  const div = document.createElement('div');
-  div.innerHTML = `
-        <p class="header">Tu resumen:</p>
-        <p>Marca:${model}</p>  
-        <p>Año: ${insurance.year}</p> 
-        <p>Tipo: ${insurance.type}</p> 
-        <p>Total:$ ${total}</p>  `;
+  showResult(insurance, total) {
+    const result = document.getElementById('resultado');
+    let model;
+    switch (insurance.model) {
+      case '1':
+        model = 'Americano';
+        break;
+      case '2':
+        model = 'Asiático';
+        break;
+      case '3':
+        model = 'Europeo';
+        break;
+    }
 
-  const spinner = document.querySelector('#cargando img');
-  spinner.style.display = 'block';
-  setTimeout(function () {
-    spinner.style.display = 'none';
-    result.appendChild(div);
-  }, 3000);
-};
+    const div = document.createElement('div');
+    div.innerHTML = `
+          <p class="header">Tu resumen:</p>
+          <p>Marca:${model}</p>  
+          <p>Año: ${insurance.year}</p> 
+          <p>Tipo: ${insurance.type}</p> 
+          <p>Total:$ ${total}</p>  `;
+
+    const spinner = document.querySelector('#cargando img');
+    spinner.style.display = 'block';
+    setTimeout(function () {
+      spinner.style.display = 'none';
+      result.appendChild(div);
+    }, 3000);
+  }
+}
 
 //listeners
 const form = document.getElementById('cotizar-seguro');
