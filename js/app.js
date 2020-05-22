@@ -11,9 +11,6 @@ function Insurance(model, year, type) {
 //interfaz
 function Interface() {}
 
-
-
-
 //listneners
 const form = document.getElementById('cotizar-seguro');
 form.addEventListener('submit', function (e) {
@@ -23,13 +20,24 @@ form.addEventListener('submit', function (e) {
   const model = document.getElementById('marca');
   const modelSelected = model.options[model.selectedIndex].value;
 
-  console.log(modelSelected);
+  //read selected year
+  const year = document.getElementById('anio');
+  const yearSelected = year.options[year.selectedIndex].value;
+
+  //read radio button
+  const type = document.querySelector('input[name="tipo"]:checked').value;
+
+  //create interface instance
+  const interfaceRes = new Interface();
+
+  //check if inputs are empty
+  if(modelSelected === '' || yearSelected === '' || type === ''){
+      console.log('faltan datos');
+  } else{
+      console.log('todo correcto');
+  }
 
 });
-
-
-
-
 
 //add options in select input
 const max = new Date().getFullYear(),
