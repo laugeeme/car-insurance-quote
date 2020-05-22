@@ -29,12 +29,17 @@ Insurance.prototype.quoteInsurance = function () {
       break;
   }
 
-
+  //read the year
   const difference = new Date().getFullYear() - this.anio;
-  quantity -= ((difference * 3) * quantity) / 100;
+  //in every old year the price reduces 3%
+  quantity -= (difference * 3 * quantity) / 100;
 
-
-
+  //basic insurance mutiplys 30% and complete 50%
+  if (this.type === 'basico') {
+    quantity *= 1.3;
+  } else {
+    quantity *= 1.5;
+  }
 };
 
 //interfaz
