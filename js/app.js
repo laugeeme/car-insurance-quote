@@ -31,7 +31,8 @@ Insurance.prototype.quoteInsurance = function () {
 
 
   const difference = new Date().getFullYear() - this.anio;
-  
+  quantity -= ((difference * 3) * quantity) / 100;
+
 
 
 };
